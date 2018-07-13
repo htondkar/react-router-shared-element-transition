@@ -1,7 +1,7 @@
-import { Consumer } from '.'
 import React, { Component } from 'react'
+import { TransitionConsumer } from './TransitionContext'
 
-class SharedElementBoundry extends Component {
+class SharedElementBoundary extends Component {
   constructor(props) {
     super(props)
     this.sharedElement = React.createRef()
@@ -14,21 +14,25 @@ class SharedElementBoundry extends Component {
 
     if (!innerSharedElement) return
 
-    context.setSharedElementBoundry(this.sharedElement.current)
-    context.setSharedElementBoundryRect(innerSharedElement.getBoundingClientRect())
+    context.setSharedElementData({
+      node: this.sharedElement.current
+        .querySelector('[data-shared-element]')
+        .cloneNode(true),
+      boundingRect: innerSharedElement.getBoundingClientRect(),
+    })
   }
 
   render() {
     return (
-      <Consumer>
+      <TransitionConsumer>
         {transitionContext => (
           <div onClick={this.onClickHandler(transitionContext)} ref={this.sharedElement}>
             {this.props.children}
           </div>
         )}
-      </Consumer>
+      </TransitionConsumer>
     )
   }
 }
 
-export default SharedElementBoundry
+export default SharedElementBoundary

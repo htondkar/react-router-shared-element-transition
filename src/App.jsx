@@ -9,29 +9,24 @@ import SinglePage from './SinglePage'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 import './App.css'
-import { Consumer } from '.'
+import { TransitionConsumer } from './TransitionContext'
 
 class App extends Component {
   onEnter = transitionContext => node => {
-    transitionContext.setTheEntringNode(node)
-  }
-
-  onExist = transitionContext => node => {
-    transitionContext.setTheExitingNode(node)
+    transitionContext.setTheEnteringNode(node)
   }
 
   render() {
     return (
-      <Consumer>
+      <TransitionConsumer>
         {transitionContext => (
           <div className="App">
             <TransitionGroup component={null}>
               <CSSTransition
                 key={this.props.location.key}
-                timeout={1000}
+                timeout={transitionContext.durationMS}
                 classNames="fade"
                 onEnter={this.onEnter(transitionContext)}
-                onExit={this.onExist(transitionContext)}
               >
                 <Switch location={this.props.location}>
                   <Route path="/" exact component={HomePage} />
@@ -42,7 +37,7 @@ class App extends Component {
             </TransitionGroup>
           </div>
         )}
-      </Consumer>
+      </TransitionConsumer>
     )
   }
 }

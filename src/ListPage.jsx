@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import items from './items'
-import SharedElementBoundry from './SharedElementBoundry'
+import SharedElementBoundary from './SharedElementBoundary'
 
 const ItemRow = ({ id, title, image }) => (
   <Link to={`/details/${id}`}>
@@ -23,9 +23,9 @@ class ListPage extends Component {
 
         <div className="list-wrapper">
           {items.map((item, index) => (
-            <SharedElementBoundry key={index} index={index}>
+            <SharedElementBoundary key={index} index={index}>
               <ItemRow {...item} />
-            </SharedElementBoundry>
+            </SharedElementBoundary>
           ))}
         </div>
       </div>
